@@ -13,12 +13,14 @@
 }
 
 * {
-    padding: 0px;
-    margin: 0px;
-    box-sizing: border-box;
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
 }
 
 body {
-    height: 100vh;
-    font-family: 'font-padrao', sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  font-family: 'font-padrao', sans-serif;
 }
