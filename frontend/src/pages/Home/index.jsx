@@ -7,6 +7,12 @@ function Home() {
     const [tasks, setTasks] = useState([])
     const [input, setInput] = useState("")
 
+    const [filter, setFilter] = useState("")
+
+    useEffect(() => {
+        fetchTasks()
+    }, [])
+
     async function fetchTasks() {
         try {
             const res = await axios.get('http://127.0.0.1:5000/tasks')
@@ -19,7 +25,7 @@ function Home() {
     }
 
     async function addTask() {
-        if (input.trim() == "") return;
+        if (input.trim() === "") return;
 
         try {
             await axios.post('http://127.0.0.1:5000/tasks', {
@@ -46,6 +52,18 @@ function Home() {
         }
     }
 
+    async function updateTask(id, newTitle) {
+        try {
+            await axios.put(`http://127.0.0.1:5000/tasks/${id}`, {
+                title: newTitle
+            })
+            fetchTasks()
+        }
+        catch(err) {
+            console.log("Erro ao atualizar tarefa:", err)
+        }
+    }
+
     async function deleteTask(id) {
         try {
             await axios.delete(`http://127.0.0.1:5000/tasks/${id}`)
@@ -56,9 +74,11 @@ function Home() {
         }
     }
 
-    useEffect(() => {
-        fetchTasks()
-    }, [])
+    const filteredTasks = tasks.filter(t => {
+        if (filter === "concluidas") return t.completed;
+        if (filter === "nao-concluidas") return !t.completed;
+        return true;
+    })
 
     return (
         <div>
@@ -71,17 +91,18 @@ function Home() {
                         <button className="bg-red-500 p-[10px] rounded-[8px]" onClick={addTask}>Adicionar</button>
                     </div>
 
-                    <select id="select">
+                    <select id="select" value={filter} onChange={(e) => setFilter(e.target.value)}>
                         <option value="" disabled selected>Filtrar por status</option>
-                        <option>Concluidas</option>
-                        <option>Não Concluidas</option>
+                        <option value="concluidas">Concluidas</option>
+                        <option value="nao-concluidas">Não Concluidas</option>
+                        <option value="exibir-todas">Exibir Todas</option>
                     </select>
                 </div>
 
                 <ul className="flex flex-col gap-[12px]">
-                    {tasks.map((t) => (
+                    {filteredTasks.map((t) => (
                         <li key={t.id}>
-                            <Task task={t} onToggleComplete={toggleComplete} onDelete={deleteTask} />
+                            <Task task={t} onToggleComplete={toggleComplete} onUpdate={updateTask} onDelete={deleteTask} />
                         </li>
                     ))}
                 </ul>
