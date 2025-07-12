@@ -9,7 +9,7 @@ export default {
       screens: {
         'desktop': { 'max': '1700px' },
         'laptop': { 'max': '1280px' },
-        'tablet': { 'max': '1060px' },
+        'tablet': { 'max': '850px' },
         'mobile': { 'max': '560px' },
       },
     },
