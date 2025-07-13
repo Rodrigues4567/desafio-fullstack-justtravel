@@ -20,7 +20,7 @@ function Home() {
     // Função para buscar as tarefas do backend
     async function fetchTasks() {
         try {
-            const res = await axios.get('http://127.0.0.1:5000/tasks')
+            const res = await axios.get('https://todo-flask-backend.onrender.com/tasks')
             setTasks(res.data)
             console.log(res.data)
         }
@@ -34,7 +34,7 @@ function Home() {
         if (input.trim() === "") return;
 
         try {
-            await axios.post('http://127.0.0.1:5000/tasks', {
+            await axios.post('https://todo-flask-backend.onrender.com/tasks', {
                 title: input,
                 completed: false
             });
@@ -49,7 +49,7 @@ function Home() {
     // Função para alternar o status (completa / não completa)
     async function toggleComplete(id, completed) {
         try {
-            await axios.put(`http://127.0.0.1:5000/tasks/${id}`, {
+            await axios.put(`https://todo-flask-backend.onrender.com/tasks/${id}`, {
                 completed: !completed
             })
             fetchTasks()
@@ -62,7 +62,7 @@ function Home() {
     // Função para atualizar o título de uma tarefa
     async function updateTask(id, newTitle) {
         try {
-            await axios.put(`http://127.0.0.1:5000/tasks/${id}`, {
+            await axios.put(`https://todo-flask-backend.onrender.com/tasks/${id}`, {
                 title: newTitle
             })
             fetchTasks()
@@ -75,7 +75,7 @@ function Home() {
     // Função para deletar uma tarefa
     async function deleteTask(id) {
         try {
-            await axios.delete(`http://127.0.0.1:5000/tasks/${id}`)
+            await axios.delete(`https://todo-flask-backend.onrender.com/tasks/${id}`)
             fetchTasks()
         }
         catch(err) {
